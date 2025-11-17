@@ -80,7 +80,7 @@ yarn dev
 
 
 Mặc định server chạy tại:
-👉 http://localhost:5000
+👉 http://localhost:4000
 
 🔐 Một số API chính (ví dụ)
 Auth
@@ -124,7 +124,7 @@ Ví dụ khi chạy trên điện thoại thật:
 
 Máy tính: 192.168.1.10
 
-Gọi API: http://192.168.1.10:5000/api/courses
+Gọi API: http://192.168.1.10:4000/api/courses
 
 👨‍💻 Dev
 
@@ -135,4 +135,3 @@ Mọi góp ý / issue vui lòng tạo tại tab Issues của repo.
 
 ---
 
-Nếu bạn muốn mình chỉnh README chi tiết đúng 100% theo cấu trúc folder và API hiện tại của bạn, cứ chụ
