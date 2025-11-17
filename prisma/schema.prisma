@@ -1,0 +1,78 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String          @id @default(uuid())
+  name         String
+  email        String          @unique
+  passwordHash String
+
+  enrollments  Enrollment[]
+  progresses   LessonProgress[]
+
+  createdAt    DateTime        @default(now())
+}
+
+model Course {
+  id          String       @id @default(uuid())
+  title       String
+  description String?
+  image       String?
+  price       Int          @default(0)
+
+  lessons     Lesson[]
+  enrollments Enrollment[]
+
+  createdAt   DateTime     @default(now())
+}
+
+model Lesson {
+  id        String   @id @default(uuid())
+  title     String
+  videoUrl  String
+  duration  Int?
+  order     Int      @default(1)
+
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id])
+
+  progresses LessonProgress[]
+}
+
+
+
+
+model LessonProgress {
+  id        String  @id @default(uuid())
+  userId    String
+  lessonId  String
+  enrollmentId String?   // 👈 thêm
+
+  completed Boolean @default(false)
+
+  user       User        @relation(fields: [userId], references: [id])
+  lesson     Lesson      @relation(fields: [lessonId], references: [id])
+  enrollment Enrollment? @relation(fields: [enrollmentId], references: [id])
+
+  @@unique([userId, lessonId])
+}
+
+
+model Enrollment {
+  id        String   @id @default(cuid())
+  userId    String
+  courseId  String
+  createdAt DateTime @default(now())
+
+  course   Course   @relation(fields: [courseId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
+  progresses LessonProgress[]
+
+  @@unique([userId, courseId], name: "userId_courseId")
+}
